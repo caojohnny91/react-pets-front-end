@@ -48,6 +48,26 @@ const App = () => {
     setSelected(pet);
   };
 
+  // Now that our create function is complete, it’s time to write the function that will use it. Because creating a new Pet will impact our petList state, we’ll want to place the new function where that state lives
+  // This function will make an async call to petService.create, passing it formData. If everything goes well, create returns the created pet object from the database. We’ll invoke setPetList and pass it a new array comprised of the new pet object, followed by the existing petList which we’ll add using the spread operator.
+  const handleAddPet = async (formData) => {
+    try {
+      // Call petService.create, assign return value to newPet
+      const newPet = await petService.create(formData);
+
+      // Let’s check if the response - newPet - has an error property. If so, we’ll throw a new Error and pass it to the catch block.
+      if (newPet.error) {
+        throw new Error(newPet.error);
+      }
+      // Add the pet object and the current petList to a new array, and
+      // set that array as the new petList
+      setPetList([newPet, ...petList]);
+      setIsFormOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       {/* Once the function is created, we’ll pass it down to PetList as a prop. */}
@@ -57,7 +77,11 @@ const App = () => {
         handleFormView={handleFormView}
         isFormOpen={isFormOpen}
       />
-      {isFormOpen ? <PetForm /> : <PetDetail selected={selected} />}
+      {isFormOpen ? (
+        <PetForm handleAddPet={handleAddPet} />
+      ) : (
+        <PetDetail selected={selected} />
+      )}
     </>
   );
 };

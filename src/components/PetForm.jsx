@@ -15,10 +15,19 @@ const PetForm = (props) => {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
   };
 
+  // handleSubmitForm will accept the submit event as an argument. To prevent the page from reloading, we’ll call evt.preventDefault().
+
+  // Then, we’ll call props.handleAddPet and pass it formData
+  const handleSubmitForm = (event) => {
+    event.preventDefault();
+    props.handleAddPet(formData);
+    setFormData({ name: "", age: "", breed: "" });
+  };
+
   return (
     <div>
-      <form>
-        <label htmlFor="name"> Name: </label>
+      <form onSubmit={handleSubmitForm}>
+        <label htmlFor="name"> Name </label>
         <input
           id="name"
           name="name"
@@ -26,14 +35,14 @@ const PetForm = (props) => {
           onChange={handleChange}
           required
         />
-        <label htmlFor="age"> Age: </label>
+        <label htmlFor="age"> Age </label>
         <input
           id="age"
           name="age"
           value={formData.age}
           onChange={handleChange}
         />
-        <label htmlFor="breed"> Breed: </label>
+        <label htmlFor="breed"> Breed </label>
         <input
           id="breed"
           name="breed"
