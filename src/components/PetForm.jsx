@@ -3,12 +3,17 @@
 import { useState } from "react";
 
 const PetForm = (props) => {
-  // formData state to control the form
-  const [formData, setFormData] = useState({
+  const initialState = {
     name: "",
     age: "",
     breed: "",
-  });
+  };
+  // formData state to control the form
+  // If pet data has been passed as props, we set formData as that pet object.
+  // Otherwise, we can assume this is a new pet form, and use the empty initialState object.
+  const [formData, setFormData] = useState(
+    props.selected ? props.selected : initialState
+  );
 
   // handleChange function to update formData state
   const handleChange = (evt) => {
@@ -21,7 +26,8 @@ const PetForm = (props) => {
   const handleSubmitForm = (event) => {
     event.preventDefault();
     props.handleAddPet(formData);
-    setFormData({ name: "", age: "", breed: "" });
+    // One final step - now that we’re handling the initial state of our form whenever the user toggles the form on, we can remove the line that resets form data on submit:
+    // remove: setFormData({ name: "", age: "", breed: "" });
   };
 
   return (
@@ -49,7 +55,9 @@ const PetForm = (props) => {
           value={formData.breed}
           onChange={handleChange}
         />
-        <button type="submit">Add New Pet</button>
+        <button type="submit">
+          {props.selected ? "Update Pet" : "Add New Pet"}
+        </button>
       </form>
     </div>
   );

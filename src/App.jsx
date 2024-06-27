@@ -14,9 +14,13 @@ const App = () => {
 
   // create a new state variable inside of App.jsx to represent the form component being “open” or “closed”. When the page loads initially the form should not be open, so we can set the initial value to false:
   const [isFormOpen, setIsFormOpen] = useState(false);
+  
 
   // create a function called handleFormView to toggle the above state variable. When the function is called, the Boolean value of isFormOpen should change from false to true, or vice versa.
-  const handleFormView = () => {
+  // Now that a user can either toggle the form view from PetList (to create a new Pet) or toggle the form view from PetDetails (to edit an existing Pet), we need a way to distinguish between the two potential uses of this function.
+  // There are a few ways we could do this, but a simple method is to check if the handleFormView function has been passed a pet object or not. If not, we can presume the “New Pet” button has been pressed, and set selected to null:
+  const handleFormView = (pet) => {
+    if (!pet.name) setSelected(null);
     setIsFormOpen(!isFormOpen);
   };
 
@@ -78,9 +82,9 @@ const App = () => {
         isFormOpen={isFormOpen}
       />
       {isFormOpen ? (
-        <PetForm handleAddPet={handleAddPet} />
+        <PetForm handleAddPet={handleAddPet} selected={selected} />
       ) : (
-        <PetDetail selected={selected} />
+        <PetDetail selected={selected} handleFormView={handleFormView} />
       )}
     </>
   );
