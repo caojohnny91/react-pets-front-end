@@ -38,6 +38,9 @@ const create = async (formData) => {
 };
 
 const updatePet = async (formData, petId) => {
+    console.log(formData);
+    console.log(petId);
+    console.log(BASE_URL);
   try {
     const res = await fetch(`${BASE_URL}/${petId}`, {
       method: "PUT",

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
+import "./App.css";
 // import all (*) of the exported functions as methods on a new petService object
 import * as petService from "./services/petService";
 import PetList from "./components/PetList";
 import PetDetail from "./components/PetDetails";
 import PetForm from "./components/PetForm";
-// import "./App.css";
 
 const App = () => {
   const [petList, setPetList] = useState([]);
@@ -79,7 +79,7 @@ const App = () => {
       }
       const updatedPetList = petList.map((pet) =>
         // If the id of the current pet is not the same as the updated pet's id, return the existing pet. If the id's match, instead return the updated pet.
-        pet._id !== updatedPetList._id ? pet : updatedPet
+        pet._id !== updatedPet._id ? pet : updatedPet
       );
       // Set petList state to this updated array
       setPetList(updatedPetList);
