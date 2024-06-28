@@ -29,15 +29,13 @@ const PetForm = (props) => {
     // One final step - now that we’re handling the initial state of our form whenever the user toggles the form on, we can remove the line that resets form data on submit:
     // remove: setFormData({ name: "", age: "", breed: "" });
   };
-console.log(props.selected);
+  console.log(props.selected);
   const handleSubmit = (evt) => {
     evt.preventDefault();
     if (props.selected) {
-        console.log("updating");
       // Don't forget to pass both formData and the ._id!
       props.handleUpdatePet(formData, props.selected._id);
     } else {
-        console.log("create");
       props.handleAddPet(formData);
     }
   };

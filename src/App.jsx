@@ -91,6 +91,24 @@ const App = () => {
     }
   };
 
+  const handleRemovePet = async (petId) => {
+    console.log("before delete");
+    try {
+      const deletedPet = await petService.deletePet(petId);
+      console.log(deletedPet);
+      if (deletedPet.error) {
+        throw new Error(deletedPet.error);
+      }
+      console.log("before list adjustment");
+      setPetList(petList.filter((pet) => pet._id !== deletedPet._id));
+      setSelected(null);
+      setIsFormOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   return (
     <>
       {/* Once the function is created, we’ll pass it down to PetList as a prop. */}
@@ -101,9 +119,17 @@ const App = () => {
         isFormOpen={isFormOpen}
       />
       {isFormOpen ? (
-        <PetForm handleAddPet={handleAddPet} selected={selected} handleUpdatePet={handleUpdatePet}/>
+        <PetForm
+          handleAddPet={handleAddPet}
+          selected={selected}
+          handleUpdatePet={handleUpdatePet}
+        />
       ) : (
-        <PetDetail selected={selected} handleFormView={handleFormView} />
+        <PetDetail
+          selected={selected}
+          handleFormView={handleFormView}
+          handleRemovePet={handleRemovePet}
+        />
       )}
     </>
   );
