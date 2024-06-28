@@ -57,7 +57,6 @@ const deletePet = async (petId) => {
     const deletedPet = await fetch(`${BASE_URL}/${petId}`, {
       method: "DELETE",
     });
-    console.log(await deletePet);
     return deletedPet.json();
   } catch (err) {
     console.log(err);

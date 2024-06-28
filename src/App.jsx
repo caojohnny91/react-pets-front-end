@@ -92,14 +92,11 @@ const App = () => {
   };
 
   const handleRemovePet = async (petId) => {
-    console.log("before delete");
     try {
       const deletedPet = await petService.deletePet(petId);
-      console.log(deletedPet);
       if (deletedPet.error) {
         throw new Error(deletedPet.error);
       }
-      console.log("before list adjustment");
       setPetList(petList.filter((pet) => pet._id !== deletedPet._id));
       setSelected(null);
       setIsFormOpen(false);
