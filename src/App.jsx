@@ -14,7 +14,6 @@ const App = () => {
 
   // create a new state variable inside of App.jsx to represent the form component being “open” or “closed”. When the page loads initially the form should not be open, so we can set the initial value to false:
   const [isFormOpen, setIsFormOpen] = useState(false);
-  
 
   // create a function called handleFormView to toggle the above state variable. When the function is called, the Boolean value of isFormOpen should change from false to true, or vice versa.
   // Now that a user can either toggle the form view from PetList (to create a new Pet) or toggle the form view from PetDetails (to edit an existing Pet), we need a way to distinguish between the two potential uses of this function.
@@ -72,6 +71,26 @@ const App = () => {
     }
   };
 
+  const handleUpdatePet = async (formData, petId) => {
+    try {
+      const updatedPet = await petService.updatePet(formData, petId);
+      if (updatedPet.error) {
+        throw new Error(updatedPet.error);
+      }
+      const updatedPetList = petList.map((pet) =>
+        // If the id of the current pet is not the same as the updated pet's id, return the existing pet. If the id's match, instead return the updated pet.
+        pet._id !== updatedPetList._id ? pet : updatedPet
+      );
+      // Set petList state to this updated array
+      setPetList(updatedPetList);
+      // If we don't set selected to the updated pet object, the details page will reference outdated data until the page reloads.
+      setSelected(updatedPet);
+      setIsFormOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       {/* Once the function is created, we’ll pass it down to PetList as a prop. */}
@@ -82,7 +101,7 @@ const App = () => {
         isFormOpen={isFormOpen}
       />
       {isFormOpen ? (
-        <PetForm handleAddPet={handleAddPet} selected={selected} />
+        <PetForm handleAddPet={handleAddPet} selected={selected} handleUpdatePet={handleUpdatePet}/>
       ) : (
         <PetDetail selected={selected} handleFormView={handleFormView} />
       )}
