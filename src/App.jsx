@@ -64,7 +64,7 @@ const App = () => {
       }
       // Add the pet object and the current petList to a new array, and
       // set that array as the new petList
-      setPetList([newPet, ...petList]);
+      setPetList([...petList, newPet]);
       setIsFormOpen(false);
     } catch (error) {
       console.log(error);

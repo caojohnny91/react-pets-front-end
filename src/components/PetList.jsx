@@ -16,16 +16,21 @@ const PetList = (props) => {
   ));
   return (
     <>
-      <h1>Pet List</h1>
-      {props.petList.length === 0 ? <h2>No Pets Yet!</h2> : <ul>{pets}</ul>}
+      <div className="sidebar-container">
+        <h1>Pet List</h1>
 
-      {/* Next, in PetList.jsx, let’s create a button that will call handleFormView when clicked. In order to determine what text the button should display to the user, we’ll need to pass isFormOpen down to PetList as well.
-        If the form is open (true), the button should say “Close Form”.
-        If the form is closed (false), the button should say “Add Pet”.
-        */}
-      <button onClick={props.handleFormView}>
-        {props.isFormOpen ? "Close Form" : "New Pet"}
-      </button>
+        <div className="list-container">
+          {props.petList.length === 0 ? (<h2>No Pets Yet!</h2>) : (<ul role="list">{pets}</ul>)}
+        </div>
+
+          {/* Next, in PetList.jsx, let’s create a button that will call handleFormView when clicked. In order to determine what text the button should display to the user, we’ll need to pass isFormOpen down to PetList as well.
+          If the form is open (true), the button should say “Close Form”.
+          If the form is closed (false), the button should say “Add Pet”.
+          */}
+        <button onClick={props.handleFormView}>
+          {props.isFormOpen ? "Close Form" : "New Pet"}
+        </button>
+      </div>
     </>
   );
 };
